@@ -1,0 +1,21 @@
+{% extends 'blog/base.html' %}
+
+{% block head %}
+<title>Login</title>
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1>Welcome</h1>
+        <p>
+            You can log in here!
+        </p>
+        <h2>Login</h2>
+        <form method="post">
+            {% csrf_token%}
+            {{ form.as_p}}
+            <button type="submit">Login</button>
+        </form>
+        <p><a href="{% url 'blog:reset_password'%}">Reset Password</a></p>
+</div>      
+{% endblock %}
