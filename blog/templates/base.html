@@ -23,12 +23,15 @@
                   <div id="navbar" class="navbar-collapse collapse">
                       {%if user.is_authenticated %} 
                     <ul class="nav navbar-nav ">
-                          <li><a href="{% url 'blog:home' %}">Home</a></li>
+                          <li><a href="{% url 'home' %}">Home</a></li>
                           <li><a href="{% url 'blog:view_profile'%}">Profile</a></li>
                           <li><a href="{% url 'blog:edit_profile'%}">Edit Profile</a></li>
                           <li><a href="{% url 'blog:change_password'%}">Change Password</a></li>
-                          <li><a href="{% url 'blog:logout'%}">Logout</a></li>
                       </ul>
+                      <ul class="nav navbar-nav navbar-right">
+                          <li><a href="{% url 'blog:logout'%}">Logout</a></li>
+
+                        </ul>
 
                 {%else%}          
                   <ul class="nav navbar-nav navbar-right">

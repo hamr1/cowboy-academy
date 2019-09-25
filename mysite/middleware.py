@@ -21,14 +21,16 @@ class LoginRequiredMiddleware:
     def process_view(self, request, view_func, view_args, view_kwargs):
         assert hasattr(request, 'user')
         path = request.path_info.lstrip('/')
-       
-        
         url_is_exempt = any(url.match(path) for url in EXEMPT_URLS)
+        
         if path == reverse('blog:logout'):
             logout(request)
-
+        
+        #Designed to keep authenticated user away from login/reset/register pages
+        #But also keeps them away from admin
         if request.user.is_authenticated and url_is_exempt:
-            return redirect(settings.LOGIN_REDIRECT_URL)
+            return None
+
         elif request.user.is_authenticated or url_is_exempt:
             return None
         else:

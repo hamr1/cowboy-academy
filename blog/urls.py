@@ -11,9 +11,9 @@ app_name = "users"
 urlpatterns =[
     path('', LoginView.as_view(template_name='blog/login.html'), name="login"),
     path('login/', LoginView.as_view(template_name='blog/login.html'), name="login"),
+    path('account/', LoginView.as_view(template_name='blog/account.html'), name="account"),
     path('accounts/login/', LoginView.as_view(template_name='blog/login.html'), name="login"),
     path("logout/", LogoutView.as_view(template_name='blog/logout.html'), name="logout"),
-    path('account/', views.home, name ='home'),
     path('account/logout/', LogoutView.as_view(template_name='blog/logout.html'), name="logout"),
     path('register/', views.register, name ='register'),
     path('profile/', views.view_profile, name ='view_profile'),

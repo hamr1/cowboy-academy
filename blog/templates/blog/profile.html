@@ -1,4 +1,4 @@
-{% extends 'blog/base.html' %}
+{% extends 'base.html' %}
 <h1>User Profile</h1>
 
 {% block head %}
@@ -12,7 +12,16 @@
     <p> First Name: {{user.first_name}} </p>
     <p> Last Name:{{user.last_name}}</p>
     <p> Email: {{user.email}}</p>
+    <p> City: {{user.userprofile.city}}</p>
+    <p> State: {{user.userprofile.state}}</p>
+    <p> Career Interest: {{user.career_interest}}</p>
+    <p> Description: {{user.userprofile.description}}</p>
+    <p> Website: {{user.userprofile.website}}</p>
+    <p> Phone: {{user.userprofile.phone}}</p>
 
+    {% if user.userprofile.image.count > 0 %}
+    <img src="{{user.userprofile.image.url}}" width="240">
+    {% endif %}
 </div>
 
 

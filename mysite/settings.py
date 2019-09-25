@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'blog.apps.BlogConfig',
-
+    'home.apps.HomeConfig'
 ]
 
 MIDDLEWARE = [
@@ -69,6 +69,7 @@ TEMPLATES = [
         },
     },
 ]
+
 
 WSGI_APPLICATION = 'mysite.wsgi.application'
 
@@ -123,6 +124,11 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
+#for development
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'mysite/media')
+#
+
 LOGIN_REDIRECT_URL='/account/'
 
 LOGIN_URL='/login/'
@@ -134,8 +140,13 @@ LOGIN_EXEMPT_URLS=(
     'reset-password/complete/',
     'reset-password/done/',
     'reset-password/confirm/<uidb64>/<token>/',
+    '/admin/',
     'admin',
-    'admin/$/',
+    '/admin',
+    'admin/'
+)
+
+ADMIN_EXEMPT_URLS =(    
 )
 
 
