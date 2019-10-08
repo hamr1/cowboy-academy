@@ -47,6 +47,22 @@ class UserProfile(models.Model):
     ('WA', 'Washington'), ('WV', 'West Virginia'),
     ('WI', 'Wisconsin'), ('WY', 'Wyoming')]
     
+    CAREER_CHOICES = [
+        ('Information Systems', 'Information Systems'),
+        ('Supply Chain and Logistics', 'Supply Chain and Logistics'),
+        ('Manufacturing Engineering', 'Manufacturing Engineering'),
+        ('Project Management', 'Project Management'),
+        ('Quality Management', 'Quality Management'),
+        ('Research and Development', 'Research and Development'),
+        ('Production Control', 'Production Control'),
+        ('Environmental Management', 'Environmental Management'),
+        ('Hiring and Recruiting', 'Hiring and Recruiting'),
+        ('Optimization', 'Optimization'),
+        ('Consulting', 'Consulting'),
+        ('Sales and Marketing', 'Sales and Marketing'),
+        ('Entrepeneurship', 'Entrepeneurship')
+
+    ]
 
     user=models.OneToOneField(User, on_delete=models.CASCADE)
     description = models.CharField(max_length=100, default ='')
@@ -55,6 +71,7 @@ class UserProfile(models.Model):
     phone = models.IntegerField(default='0')
     state = models.CharField(max_length=30, choices=STATE_CHOICES, default='OK')
     image = models.ImageField(upload_to='profile_image', blank=True )
+    career_interest = models.CharField(max_length=30, default='MGMT', choices=CAREER_CHOICES)
 
 
     def __str__(self):

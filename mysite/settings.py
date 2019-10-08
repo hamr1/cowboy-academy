@@ -139,14 +139,14 @@ LOGIN_EXEMPT_URLS=(
     'reset-password/',
     'reset-password/complete/',
     'reset-password/done/',
-    'reset-password/confirm/<uidb64>/<token>/',
-    '/admin/',
-    'admin',
-    '/admin',
-    'admin/'
+    'reset-password/confirm/<uidb64>/<token>/'
 )
 
-ADMIN_EXEMPT_URLS =(    
+ADMIN_EXEMPT_URLS =(  
+     '/admin/',
+    'admin',
+    '/admin',
+    'admin/' 
 )
 
 

@@ -35,3 +35,4 @@ def update_profile(request):
             message.error(request, _('Please correct the error below.'))
     else:
         user_form = UserForm(instance = request.user)
+

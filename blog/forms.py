@@ -13,7 +13,6 @@ class RegistrationForm(UserCreationForm):
     email = forms.EmailField(required=True)
     #Define any new fields (carreer interest, city, state, etc) Here
     #Remember to name them in meta
-    career_interest = forms.CharField(max_length=40, label='career_interest')
 
     class Meta:
         model  = User
@@ -24,18 +23,16 @@ class RegistrationForm(UserCreationForm):
             'email',
             'password1',
             'password2',
-            'career_interest'
         }
         def save(self, commit=True):
             user = super(self, RegistrationForm).save(commit=False)
             user.first_name = self.cleaned_data['first_name']
             user.last_name = self.cleaned_data['last_name']
             user.email = self.cleaned_data['email']
-            user.career_interest =self.cleaned_data['career_interest']
 
             if commit:
                 user.save()
-    field_order =['username','first_name','last_name','career_interest','email','password1','password2' ]
+    field_order =['username','first_name','last_name', 'email','password1','password2' ]
     
 class EditProfileForm(UserChangeForm):
     password = None
@@ -49,7 +46,7 @@ class EditProfileForm(UserChangeForm):
         )
         #Toggle which fields to exclude from Profile Edit
         exclude = ()
-    field_order =['first_name','last_name','email', 'career_interest']
+    field_order =['first_name','last_name','email']
 
 
 ##Attempt at Protile Form
@@ -61,6 +58,7 @@ class EditUserProfile(forms.ModelForm):
             'city',
             'state',
             'website',
-            'phone'
+            'phone',
+            'career_interest'
             
         )
