@@ -1,21 +1,17 @@
 from django.db import models
 from django.db.models.signals import post_save
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
 from django.conf import settings
 from django.dispatch import receiver
 
-
-
 # Create your models here.
-class UserProfileManager(models.Manager):
-    def get_queryset(self):
-        return super(UserProfileManager, self).get_queryset().filter(city='London')
+#class UserProfileManager(models.Manager):
+#    def get_queryset(self):
+#        return super(UserProfileManager, self).get_queryset().filter(city='London')
 
-#class User(AbstractUser):
-#    is_student = models.BooleanField('student status', default=False)
-#    is_teacher = models.BooleanField('teacher status', default=False)
-
-class UserProfile(models.Model):
+class User(AbstractUser):
+    is_mentor = models.BooleanField('Mentor', default=False)
+    is_mentee = models.BooleanField('Mentee', default=False)
 
     STATE_CHOICES = [('AL', 'Alabama'), ('AK', 'Alaska'), 
     ('AS', 'American Samoa'), ('AZ', 'Arizona'), 
@@ -46,7 +42,44 @@ class UserProfile(models.Model):
     ('VI', 'Virgin Islands'), ('VA', 'Virginia'),
     ('WA', 'Washington'), ('WV', 'West Virginia'),
     ('WI', 'Wisconsin'), ('WY', 'Wyoming')]
+
+    description = models.CharField(max_length=100, default ='')
+    city = models.CharField(max_length=100, default='')
+    website = models.URLField(default='', blank = True)
+    phone = models.IntegerField(default='0')
+    state = models.CharField(max_length=30, choices=STATE_CHOICES, default='OK')
+    image = models.ImageField(upload_to='profile_image', blank=True )
+
+class MentorProfile(models.Model):
+    user=models.OneToOneField(User, on_delete=models.CASCADE)
+    AREA_OF_EXPERTISE = [
+        ('Information Systems', 'Information Systems'),
+        ('Supply Chain and Logistics', 'Supply Chain and Logistics'),
+        ('Manufacturing Engineering', 'Manufacturing Engineering'),
+        ('Project Management', 'Project Management'),
+        ('Quality Management', 'Quality Management'),
+        ('Research and Development', 'Research and Development'),
+        ('Production Control', 'Production Control'),
+        ('Environmental Management', 'Environmental Management'),
+        ('Hiring and Recruiting', 'Hiring and Recruiting'),
+        ('Optimization', 'Optimization'),
+        ('Consulting', 'Consulting'),
+        ('Sales and Marketing', 'Sales and Marketing'),
+        ('Entrepeneurship', 'Entrepeneurship'),
+        ('--', '--')
+
+    ]
+    career_expertise1 = models.CharField(max_length=30, default='--', choices=AREA_OF_EXPERTISE)
+    career_expertise2 = models.CharField(max_length=30, default='--', choices=AREA_OF_EXPERTISE)
+    career_expertise3 = models.CharField(max_length=30, default='--', choices=AREA_OF_EXPERTISE)
+    career_expertise4 = models.CharField(max_length=30, default='--', choices=AREA_OF_EXPERTISE)
+    career_expertise5 = models.CharField(max_length=30, default='--', choices=AREA_OF_EXPERTISE)
+    career_expertise6 = models.CharField(max_length=30, default='--', choices=AREA_OF_EXPERTISE)
     
+    def __str__(self):
+        return self.user.username
+
+class MenteeProfile(models.Model):
     CAREER_CHOICES = [
         ('Information Systems', 'Information Systems'),
         ('Supply Chain and Logistics', 'Supply Chain and Logistics'),
@@ -61,24 +94,15 @@ class UserProfile(models.Model):
         ('Consulting', 'Consulting'),
         ('Sales and Marketing', 'Sales and Marketing'),
         ('Entrepeneurship', 'Entrepeneurship')
-
     ]
-
     user=models.OneToOneField(User, on_delete=models.CASCADE)
-    description = models.CharField(max_length=100, default ='')
-    city = models.CharField(max_length=100, default='')
-    website = models.URLField(default='', blank = True)
-    phone = models.IntegerField(default='0')
-    state = models.CharField(max_length=30, choices=STATE_CHOICES, default='OK')
-    image = models.ImageField(upload_to='profile_image', blank=True )
-    career_interest = models.CharField(max_length=30, default='MGMT', choices=CAREER_CHOICES)
-
+    career_interest1 = models.CharField(max_length=30, default='MGMT', choices=CAREER_CHOICES)
+    career_interest2 = models.CharField(max_length=30, default='MGMT', choices=CAREER_CHOICES)
+    career_interest3 = models.CharField(max_length=30, default='MGMT', choices=CAREER_CHOICES)
 
     def __str__(self):
         return self.user.username
 
-def create_profile(sender, **kwargs):
-    if kwargs['created']:
-        user_profile = UserProfile.objects.create(user=kwargs['instance'])
 
-post_save.connect(create_profile, sender=User)
+#IF USER IS CREATED AND SELECTS TO BE A MENTOR CREATE A MENTOR PROFILE
+#IF USER IS CREATED AND SELECTS TO BE A MENTEE CREATE A MENTEE PROFILE

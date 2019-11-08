@@ -6,23 +6,54 @@
 {% endblock %}
    
 {% block body%}
+
+{%if user.is_mentee%}
 <div class="container">
     <h1>Profile</h1>
     <p> Username: {{user}}</p>
     <p> First Name: {{user.first_name}} </p>
     <p> Last Name:{{user.last_name}}</p>
     <p> Email: {{user.email}}</p>
-    <p> City: {{user.userprofile.city}}</p>
-    <p> State: {{user.userprofile.state}}</p>
-    <p> Career Interest: {{user.userprofile.career_interest}}</p>
-    <p> Description: {{user.userprofile.description}}</p>
-    <p> Website: {{user.userprofile.website}}</p>
-    <p> Phone: {{user.userprofile.phone}}</p>
+    <p> City: {{user.city}}</p>
+    <p> State: {{user.state}}</p>
+    <p> Description: {{user.description}}</p>
+    <p> Website: {{user.website}}</p>
+    <p> Phone: {{user.phone}}</p>
 
-    {% if user.userprofile.image.count > 0 %}
+    <p> Career Interest: {{user.menteeprofile.career_interest1}}</p>
+    <p> Career Interest: {{user.menteeprofile.career_interest2}}</p>
+    <p> Career Interest: {{user.menteeprofile.career_interest3}}</p>
+
+    {% if user.menteeprofile.image.count > 0 %}
     <img src="{{user.userprofile.image.url}}" width="240">
     {% endif %}
 </div>
+{%endif%}
 
+{%if user.is_mentor%}
+<div class="container">
+    <h1>Profile</h1>
+    <p> Username: {{user}}</p>
+    <p> First Name: {{user.first_name}} </p>
+    <p> Last Name:{{user.last_name}}</p>
+    <p> Email: {{user.email}}</p>
+    <p> City: {{user.city}}</p>
+    <p> State: {{user.state}}</p>
+    <p> Description: {{user.description}}</p>
+    <p> Website: {{user.website}}</p>
+    <p> Phone: {{user.phone}}</p>
+
+    <p> Career Interest: {{user.mentorprofile.career_expertise1}}</p>
+    <p> Career Interest: {{user.mentorprofile.career_expertise2}}</p>
+    <p> Career Interest: {{user.mentorprofile.career_expertise3}}</p>
+    <p> Career Interest: {{user.mentorprofile.career_expertise4}}</p>
+    <p> Career Interest: {{user.mentorprofile.career_expertise5}}</p>
+    <p> Career Interest: {{user.mentorprofile.career_expertise6}}</p>
+
+    {% if user.mentorprofile.image.count > 0 %}
+    <img src="{{user.userprofile.image.url}}" width="240">
+    {% endif %}
+</div>
+{%endif%}
 
 {% endblock%}
