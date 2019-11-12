@@ -4,7 +4,7 @@ from django.contrib.auth.forms import(
 from blog.forms import ( RegistrationForm, MentorProfileForm, MenteeProfileForm,
     EditMenteeProfile, EditMentorProfile)
 from django.contrib.auth.models import User
-from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth import update_session_auth_hash, get_user_model
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from blog.forms import EditUserProfile
@@ -68,8 +68,13 @@ def MenteeRegister(request):
         args = {'user_form': user_form, 'profile_form': profile_form}
         return render(request, 'blog/mentee_reg_form.html', args)
 
-def view_profile(request):
-    args= {'user': request.user}
+def view_profile(request, pk=None):
+    User = get_user_model()
+    if pk:
+        user = User.objects.get(pk=pk)
+    else:
+        user = request.user
+    args= {'user': user}
     return render(request, 'blog/profile.html', args)
 
 
@@ -77,9 +82,12 @@ def change_password(request):
     if request.method == 'POST':
         form = PasswordChangeForm(data=request.POST, user=request.user)
         if form.is_valid():
+
             form.save()
             update_session_auth_hash(request, form.user)
+
             return redirect(reverse('blog:view_profile'))
+
         else:
             return redirect(reverse('blog:change_password'))
     else:
@@ -123,4 +131,3 @@ def edit_profile(request):
         args = {'user_form': user_form, 'profile_form': profile_form}
         return render(request,'blog/edit_profile.html', args)
 
-                    

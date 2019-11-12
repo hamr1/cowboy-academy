@@ -6,3 +6,7 @@ from django.contrib.auth.admin import UserAdmin
 admin.site.site_header="Admin"
 
 admin.site.register(User)
+
+admin.site.register(MenteeProfile)
+
+admin.site.register(MentorProfile)

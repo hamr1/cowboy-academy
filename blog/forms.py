@@ -85,7 +85,8 @@ class EditUserProfile(forms.ModelForm):
             'state',
             'website',
             'phone',
-            'email'
+            'email',
+            #'image'
         )
 
 
@@ -97,7 +98,6 @@ class EditMenteeProfile(forms.ModelForm):
         'career_interest2',
         'career_interest3'
         )
-
 
 class EditMentorProfile(forms.ModelForm):
     class Meta:
@@ -114,7 +114,6 @@ class EditMentorProfile(forms.ModelForm):
 class MentorProfileForm(forms.ModelForm):
     #Define any new fields (carreer interest, city, state, etc) Here
     #Remember to name them in meta
-
     class Meta:
          model = MentorProfile
          fields = {
