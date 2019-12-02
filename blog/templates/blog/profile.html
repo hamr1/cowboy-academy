@@ -16,7 +16,7 @@
     <p> Email: {{user.email}}</p>
     <p> City: {{user.city}}</p>
     <p> State: {{user.state}}</p>
-    <p> Bio: {{user.description}}</p>
+    <p> Description: {{user.description}}</p>
     <p> Website: {{user.website}}</p>
     <p> Phone: {{user.phone}}</p>
 
@@ -24,8 +24,8 @@
     <p> Career Interest: {{user.menteeprofile.career_interest2}}</p>
     <p> Career Interest: {{user.menteeprofile.career_interest3}}</p>
 
-    {% if user.image %}
-    <img src="{{user.image.url}}" width="240">
+    {% if user.User.image %}
+    <img src="{{user.User.image.url}}" width="240">
     {% endif %}
 </div>
 {%endif%}
@@ -51,7 +51,7 @@
     <p> Career Interest: {{user.mentorprofile.career_expertise5}}</p>
     <p> Career Interest: {{user.mentorprofile.career_expertise6}}</p>
 
-    {% if user.image %}
+    {% if user.User.image %}
     <img src="{{user.userprofile.image.url}}" width="240">
     {% endif %}
 </div>

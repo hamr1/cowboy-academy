@@ -57,20 +57,7 @@ class MenteeProfileForm(forms.ModelForm): #I don't think UserCreation Form Is Ri
             if commit:
                 user.save()
             return MenteeProfile
-
-# class EditProfileForm(UserChangeForm):
-#     password = None
-#     class Meta:
-#         model = User
-#         #Toggle which fields to include from Profile Edit
-#         fields = (
-#             'email',
-#             'first_name',
-#             'last_name'
-#         )
-#         #Toggle which fields to exclude from Profile Edit
-#         exclude = ()
-#     field_order =['first_name','last_name','email']
+    field_order =('career_interest1', 'career_interest2', 'career_interest3')
 
 #Attempt at Protile Form
 class EditUserProfile(forms.ModelForm):
@@ -98,6 +85,8 @@ class EditMenteeProfile(forms.ModelForm):
         'career_interest2',
         'career_interest3'
         )
+        field_order =('career_interest1', 'career_interest2', 'career_interest3')
+
 
 class EditMentorProfile(forms.ModelForm):
     class Meta:
@@ -123,6 +112,7 @@ class MentorProfileForm(forms.ModelForm):
              'career_expertise4',
              'career_expertise5',
              'career_expertise6',
+            #  'mentor_capacity'
          }
          def save(self, commit=True):
              user = super(self, MentorRegistrationForm).save(commit=False)
@@ -136,5 +126,5 @@ class MentorProfileForm(forms.ModelForm):
              if commit:
                  user.save()
              return user
-    field_order =['career_expertise1','career_expertise2','career_expertise3', 'career_expertise4', 
+    field_order =['mentor_capacity','career_expertise1','career_expertise2','career_expertise3', 'career_expertise4', 
     'career_expertise5', 'career_expertise6']

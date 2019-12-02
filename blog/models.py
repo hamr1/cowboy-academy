@@ -3,6 +3,7 @@ from django.db.models.signals import post_save
 from django.contrib.auth.models import AbstractUser
 from django.conf import settings
 from django.dispatch import receiver
+from django.db.models import Count
 
 # Create your models here.
 #class UserProfileManager(models.Manager):
@@ -50,8 +51,37 @@ class User(AbstractUser):
     state = models.CharField(max_length=30, choices=STATE_CHOICES, default='OK')
     image = models.ImageField(upload_to='profile_image', blank=True )
 
+    # @classmethod
+    # def get_connections(self):
+    #     user = self.user
+    #     return Connections.objects.filter(Q(creator=user)|Q(Connection=user))
+        
+    # mentees_count = device.objects.annotate(num=Count('Connections'))
+
+# class Connection(models.Model):
+# """ Model to represent Friendships """
+#     to_user = models.ForeignKey(AUTH_USER_MODEL, models.CASCADE, related_name='friends')
+#     from_user = models.ForeignKey(AUTH_USER_MODEL, models.CASCADE, related_name='_unused_friend_relation')
+
 class MentorProfile(models.Model):
+    # INTEGER_CHOICES= [tuple([x,x]) for x in range(1,7)]
     user=models.OneToOneField(User, on_delete=models.CASCADE)
+    capacity = models.BooleanField('MentorCapacity', default=False)
+
+#     def current_load(): #define function that counts how many mentees a mentor has
+#         count(MentorProfile.mentees)   #need a varaible that counts how many mentees currently assigned
+
+#     def capacity_remain(): #define function that subtracts capacity from current load
+#         capacity_remaining=(capacity-current_load)  #need a variable that says how much capacity is remaining
+
+#     def at_capacity(request): #create boolean trigger that shows if mentor is at capacity or not
+#         if capacity_remaining=0:
+#             at_capacity=True
+#         else:
+#             at_capacity= False
+
+#     questions = Question.objects.annotate(number_of_mentees=Count('answer')) 
+
     AREA_OF_EXPERTISE = [
         ('Information Systems', 'Information Systems'),
         ('Supply Chain and Logistics', 'Supply Chain and Logistics'),
@@ -67,17 +97,26 @@ class MentorProfile(models.Model):
         ('Sales and Marketing', 'Sales and Marketing'),
         ('Entrepeneurship', 'Entrepeneurship'),
         ('--', '--')
-
     ]
-    career_expertise1 = models.CharField(max_length=30, default='--', choices=AREA_OF_EXPERTISE)
-    career_expertise2 = models.CharField(max_length=30, default='--', choices=AREA_OF_EXPERTISE)
-    career_expertise3 = models.CharField(max_length=30, default='--', choices=AREA_OF_EXPERTISE)
-    career_expertise4 = models.CharField(max_length=30, default='--', choices=AREA_OF_EXPERTISE)
-    career_expertise5 = models.CharField(max_length=30, default='--', choices=AREA_OF_EXPERTISE)
-    career_expertise6 = models.CharField(max_length=30, default='--', choices=AREA_OF_EXPERTISE)
     
+    career_expertise1 = models.CharField(max_length=30, default='--', choices=AREA_OF_EXPERTISE, verbose_name='Career Expertise 1')
+    career_expertise2 = models.CharField(max_length=30, default='--', choices=AREA_OF_EXPERTISE, verbose_name='Career Expertise 2')
+    career_expertise3 = models.CharField(max_length=30, default='--', choices=AREA_OF_EXPERTISE, verbose_name='Career Expertise 3')
+    career_expertise4 = models.CharField(max_length=30, default='--', choices=AREA_OF_EXPERTISE, verbose_name='Career Expertise 4')
+    career_expertise5 = models.CharField(max_length=30, default='--', choices=AREA_OF_EXPERTISE, verbose_name='Career Expertise 5')
+    career_expertise6 = models.CharField(max_length=30, default='--', choices=AREA_OF_EXPERTISE, verbose_name='Career Expertise 6')
+    
+    # friends = models.ManyToManyField('MenteeProfile')
+
+    # mentor_capacity = models.CharField(max_length=3, default=1, choices=INTEGER_CHOICES, verbose_name='What is your maximum mentee threshold?')
+
     def __str__(self):
         return self.user.username
+
+# class MentorMenteeTable(models.Model):
+#     mentor = models.ForeignKey(MentorProfile)
+#     mentee = models.ForeignKey(MenteeProfile)
+#     is_current = models.BooleanField(default=True)
 
 class MenteeProfile(models.Model):
     CAREER_CHOICES = [
@@ -95,14 +134,20 @@ class MenteeProfile(models.Model):
         ('Sales and Marketing', 'Sales and Marketing'),
         ('Entrepeneurship', 'Entrepeneurship')
     ]
+
     user=models.OneToOneField(User, on_delete=models.CASCADE)
-    career_interest1 = models.CharField(max_length=30, default='MGMT', choices=CAREER_CHOICES)
-    career_interest2 = models.CharField(max_length=30, default='MGMT', choices=CAREER_CHOICES)
-    career_interest3 = models.CharField(max_length=30, default='MGMT', choices=CAREER_CHOICES)
+
+    career_interest1 = models.CharField(max_length=30, default='MGMT', choices=CAREER_CHOICES, verbose_name='First Career Interest')
+    career_interest2 = models.CharField(max_length=30, default='MGMT', choices=CAREER_CHOICES, verbose_name='Second Career Interest')
+    career_interest3 = models.CharField(max_length=30, default='MGMT', choices=CAREER_CHOICES, verbose_name='Third Career Interest')
+    has_match = models.BooleanField('Match', default=False)
 
     def __str__(self):
         return self.user.username
 
-
-#IF USER IS CREATED AND SELECTS TO BE A MENTOR CREATE A MENTOR PROFILE
-#IF USER IS CREATED AND SELECTS TO BE A MENTEE CREATE A MENTEE PROFILE
+# class MentorMenteeMgmt(models.Model):
+#     """
+#         friends table
+#     """
+#     user = models.ForeignKey(User)
+#     friend = models.ForeignKey(User, related_name="friends")
